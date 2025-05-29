@@ -43,4 +43,6 @@ conda install -c conda-forge py-xgboost-gpu cudatoolkit=11.8
 conda install scikit-learn
 conda install ipykernel
 python -m ipykernel install --user --name=xgb-gpu118
+
+rm -rf `find . -type d -name ".ipynb_checkpoints"`
 ```
