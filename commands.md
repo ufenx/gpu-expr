@@ -27,6 +27,12 @@ conda env create --name xgb-gpu118 --file /home/ubuntu/visamlp/gpu-expr/envs/xgb
 git config --global user.email "adam.yufeng.hsing@gmail.com"
 git config --global user.name "ufenx"
 
+# dask version
+conda env create --name xgb-gpu118-dask --file /home/ubuntu/visamlp/gpu-expr/envs/xgboost-env/dask-env.yml
+python -m ipykernel install --user --name xgb-gpu118-dask --display-name "xgb-gpu118-dask"
+conda install -c conda-forge ucx ucx-proc=*=gpu
+conda install -c conda-forge dask-cuda
+
 #################################
 
 conda create -n xgboost-env

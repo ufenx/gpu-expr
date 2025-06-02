@@ -1,4 +1,4 @@
-name: xgb-gpu118
+name: xgb-gpu118-dask
 channels:
   - conda-forge
   - defaults
@@ -21,5 +21,9 @@ dependencies:
   - joblib
   - tornado
   - pyzmq
+  - dask
+  - distributed
+  - dask-cuda
+  - dask-ml
   - pip:
       - ml-collections
