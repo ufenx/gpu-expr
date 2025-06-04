@@ -6,12 +6,13 @@ from ml_collections import ConfigDict
 def get_config():
     """Returns training configuration."""
     config = ConfigDict()
+    config.label = None
 
     config.sample = ConfigDict()
     config.sample.n_samples = 1_000_000            # For nontesting, change to 100_000_000
-    config.n_features = 20
-    config.random_state = 42
-    config.test_size = 0.2
+    config.sample.n_features = 20
+    config.sample.random_state = 42
+    config.sample.test_size = 0.2
     
     config.common = ConfigDict()
     config.common.booster = "gbtree"
@@ -39,6 +40,9 @@ def get_config():
 
     config.cpu = ConfigDict()
     config.cpu.device = None  # Use default CPU
+
+    config.cuda = ConfigDict()
+    config.cuda.device = 'cuda'
 
     config.gpu = ConfigDict()
     config.gpu.device = 'gpu'
