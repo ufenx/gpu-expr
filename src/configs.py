@@ -41,7 +41,7 @@ def get_config():
     config.cpu.device = None  # Use default CPU
 
     config.gpu = ConfigDict()
-    config.gpu.device = 'cuda'
+    config.gpu.device = 'gpu'
 
     config.dask = ConfigDict()
     config.dask.device = 'cuda'

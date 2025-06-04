@@ -1,6 +1,0 @@
-
-Access the cluster through a A100 machine.
-
-```
-mkdir -p ~/.ssh/config.d && mv config.visa-mlp ~/.ssh/config.d/
-```

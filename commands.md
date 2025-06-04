@@ -33,6 +33,9 @@ python -m ipykernel install --user --name xgb-gpu118-dask --display-name "xgb-gp
 conda install -c conda-forge ucx ucx-proc=*=gpu
 conda install -c conda-forge dask-cuda
 
+conda env create --name jaxgboost --file /home/ubuntu/visamlp/gpu-expr/envs/jax-xgboost/jaxgboost.yml
+python -m ipykernel install --user --name jaxgboost --display-name "jaxgboost"
+
 #################################
 
 conda create -n xgboost-env
