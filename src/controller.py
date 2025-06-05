@@ -14,6 +14,9 @@ def get_trainer(label):
         elif label == "JAX":
             from libs import xgb_jax_trainer
             return xgb_jax_trainer
+        elif label == "JIT":
+            from libs import xgb_jit_trainer
+            return xgb_jit_trainer
         else:
             from libs import xgb_trainer
             return xgb_trainer
@@ -43,6 +46,7 @@ def main():
         "GPU": {**config.common, **config.gpu},
         "CUDA":  {**config.common, **config.cuda},
         "JAX": {**config.common, **config.gpu},
+        "JIT": {**config.common, **config.gpu},
         "DASK": {**config.common},
     }
 
