@@ -94,6 +94,7 @@ def select_label(label_param_list):
 def parse_args():
     parser = argparse.ArgumentParser(description="Run XGBoost training on selected backend.")
     parser.add_argument('-n', type=int, default=1, help="Number of executions to run")
+    parser.add_argument('-i', type=int, default=None, help="GPU device selection")
     return parser.parse_args()
 
 def main():
@@ -104,6 +105,14 @@ def main():
     label = select_label(label_param_list)
 
     gpu_ids = get_available_gpus(label)
+    if label != "CPU" and args.i:
+        if args.i > len(gpu_ids) - 1:
+            print(f"No GPU at {args.i}, using 0.")
+            args.i = 0
+        gpu_id = gpu_ids[args.i]
+        config.gpu.device = gpu_id
+        config.cuda.device = gpu_id
+        config.dask.device = gpu_id
 
     # Generate dataset once
     X_train, X_test, y_train, y_test = generate_data(config)
