@@ -11,7 +11,7 @@
 (
   for i in {0..7}
   do
-    python controller.py -n 13 -i $i -m 1 &
+    python controller.py -n 13 -i $i -m 6 &
   done
   wait
   python notification.py

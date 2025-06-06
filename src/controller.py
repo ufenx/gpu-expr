@@ -104,7 +104,7 @@ def main():
     
     label_param_list = ["CPU", "GPU", "CUDA", "JAX", "JIT", "DASK"]
     if args.m:
-        label = label_param_list[args.m]
+        label = label_param_list[args.m-1]
     else:
         label = select_label(label_param_list)
 
