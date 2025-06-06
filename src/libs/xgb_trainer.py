@@ -3,9 +3,10 @@
 import time
 import xgboost as xgb
 from sklearn.metrics import accuracy_score
+import os
 
 
-def train_model(X_train, X_test, y_train, y_test, params, num_boost_round=100, label="CPU"):
+def train_model(X_train, X_test, y_train, y_test, params, num_boost_round=100, label="CPU", log_num=0):
     """Train XGBoost model using CPU or GPU backend."""
     print(f"Training with {label}...")
 
@@ -22,3 +23,8 @@ def train_model(X_train, X_test, y_train, y_test, params, num_boost_round=100, l
     acc = accuracy_score(y_test, y_pred_binary)
     print(f"{label} Accuracy: {acc:.4f}")
     print(f"{label} Training Time: {elapsed:.2f} seconds\n")
+
+    os.makedirs("log", exist_ok=True)
+    log_path = f"log/{label}_{log_num}.log"
+    with open(log_path, "a") as f:
+        f.write(f"{acc:.2f}, {elapsed:.6f}\n")

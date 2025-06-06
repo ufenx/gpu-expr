@@ -51,7 +51,7 @@ def get_trainer(label):
         print(f"[ERROR] Module '{missing_module}' not found in the current environment. Please switch to the correct Conda environment.")
         raise
 
-def train_model(label, X_train, X_test, y_train, y_test, config):
+def train_model(label, X_train, X_test, y_train, y_test, config, i=0):
     """Train model using the selected trainer and parameters."""
     trainer = get_trainer(label)
     label_param_map = {
@@ -64,7 +64,7 @@ def train_model(label, X_train, X_test, y_train, y_test, config):
     }
     params = label_param_map[label]
     trainer.train_model(X_train, X_test, y_train, y_test,
-                        params=params, num_boost_round=config.common.num_boost_round, label=label)
+                        params=params, num_boost_round=config.common.num_boost_round, label=label, log_num=i)
 
 def generate_data(config):
     """Generate and split classification dataset once."""
@@ -105,21 +105,26 @@ def main():
     label = select_label(label_param_list)
 
     gpu_ids = get_available_gpus(label)
-    if label != "CPU" and args.i:
-        if args.i > len(gpu_ids) - 1:
-            print(f"No GPU at {args.i}, using 0.")
+    if label != "CPU":
+        if args.i:
+            if args.i > len(gpu_ids) - 1:
+                print(f"No GPU at {args.i}, using 0.")
+                args.i = 0
+            gpu_id = gpu_ids[args.i]
+            config.gpu.device = gpu_id
+            config.cuda.device = gpu_id
+            config.dask.device = gpu_id
+        else:
             args.i = 0
-        gpu_id = gpu_ids[args.i]
-        config.gpu.device = gpu_id
-        config.cuda.device = gpu_id
-        config.dask.device = gpu_id
+    else:
+        args.i = None
 
     # Generate dataset once
     X_train, X_test, y_train, y_test = generate_data(config)
 
     for i in range(args.n):
         print(f"\n--- Training Run #{i + 1} ---")
-        train_model(label, X_train, X_test, y_train, y_test, config)
+        train_model(label, X_train, X_test, y_train, y_test, config, args.i)
 
 if __name__ == "__main__":
     main()

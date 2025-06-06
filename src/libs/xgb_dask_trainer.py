@@ -7,6 +7,7 @@ import dask.distributed
 from sklearn.datasets import make_classification
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
+import os
 
 import os
 import sys
@@ -16,7 +17,7 @@ import dask
 dask.config.set({'logging.distributed': 'error'})
 
 def train_model(X_train=None, X_test=None, y_train=None, y_test=None,
-                params=None, num_boost_round=100, label="DASK"):
+                params=None, num_boost_round=100, label="DASK", log_num=0):
     """Train XGBoost model using Dask (distributed)."""
     print(f"Training with {label}...")
 
@@ -44,6 +45,11 @@ def train_model(X_train=None, X_test=None, y_train=None, y_test=None,
 
     print(f"{label} Accuracy: {acc:.4f}")
     print(f"{label} Training Time: {end - start:.2f} seconds\n")
+
+    os.makedirs("log", exist_ok=True)
+    log_path = f"log/{label}_{log_num}.log"
+    with open(log_path, "") as f:
+        f.write(f"{acc:.2f}, {elapsed:.6f}\n")
 
     client.close()
     cluster.close()

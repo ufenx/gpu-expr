@@ -6,6 +6,7 @@ import jax
 import jax.numpy as jnp
 import numpy as np
 from sklearn.metrics import accuracy_score
+import os
 
 # JIT-compiled JAX loss function
 @jax.jit
@@ -25,7 +26,7 @@ def custom_obj_jax(preds, dtrain):
 
     return np.array(grad_val), np.array(hess_val)
 
-def train_model(X_train, X_test, y_train, y_test, params, num_boost_round=100, label="JAX + JIT"):
+def train_model(X_train, X_test, y_train, y_test, params, num_boost_round=100, label="JAX + JIT", log_num=0):
     """Train XGBoost model with JAX-based custom objective (JIT-compiled)."""
     print(f"Training with {label}...")
 
@@ -39,6 +40,11 @@ def train_model(X_train, X_test, y_train, y_test, params, num_boost_round=100, l
     preds = model.predict(dtest)
     preds_binary = [1 if p > 0.5 else 0 for p in preds]
     acc = accuracy_score(y_test, preds_binary)
-
+    
     print(f"{label} Accuracy: {acc:.4f}")
     print(f"{label} Training Time: {elapsed:.2f} seconds\n")
+    
+    os.makedirs("log", exist_ok=True)
+    log_path = f"log/{label}_{log_num}.log"
+    with open(log_path, "a") as f:
+        f.write(f"{acc:.2f}, {elapsed:.6f}\n")

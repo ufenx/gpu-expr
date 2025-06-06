@@ -1,3 +1,6 @@
+# Ignore logs
+src/log/
+
 # Visa MLP Internal Only
 MLP/
 VISA/
