@@ -12,7 +12,6 @@ msg = EmailMessage()
 msg["Subject"] = "[Automated Email] Current Background Jobs Done on B200 ✅"
 msg["From"] = EMAIL_ADDRESS
 msg["To"] = EMAIL_ADDRESS
-msg["CC"] = COMPANY_EMAIL
 msg.set_content("Please check the logs and run the next test.")
 
 # Send email via Gmail SMTP
