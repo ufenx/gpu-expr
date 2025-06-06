@@ -95,6 +95,7 @@ def parse_args():
     parser = argparse.ArgumentParser(description="Run XGBoost training on selected backend.")
     parser.add_argument('-n', type=int, default=1, help="Number of executions to run")
     parser.add_argument('-i', type=int, default=None, help="GPU device selection")
+    parser.add_argument('-m', type=int, default=1, help="Fast execution method")
     return parser.parse_args()
 
 def main():
@@ -102,7 +103,10 @@ def main():
     config = get_config()
     
     label_param_list = ["CPU", "GPU", "CUDA", "JAX", "JIT", "DASK"]
-    label = select_label(label_param_list)
+    if args.m:
+        label = label_param_list[args.m]
+    else:
+        label = select_label(label_param_list)
 
     gpu_ids = get_available_gpus(label)
     if label != "CPU":
