@@ -43,6 +43,9 @@ def get_trainer(label):
         elif label == "JIT":
             from libs import xgb_jit_trainer
             return xgb_jit_trainer
+        elif label == "torch":
+            from libs import xgb_torch_trainer
+            return xgb_torch_trainer
         else:
             from libs import xgb_trainer
             return xgb_trainer
@@ -61,6 +64,7 @@ def train_model(label, X_train, X_test, y_train, y_test, config, i=0):
         "JAX":  {**config.common, **config.gpu},
         "JIT":  {**config.common, **config.gpu},
         "DASK": {**config.common},
+        "TORCH": {**config.common, **config.gpu},
     }
     params = label_param_map[label]
     trainer.train_model(X_train, X_test, y_train, y_test,
@@ -102,7 +106,7 @@ def main():
     args = parse_args()
     config = get_config()
     
-    label_param_list = ["CPU", "GPU", "CUDA", "JAX", "JIT", "DASK"]
+    label_param_list = ["CPU", "GPU", "CUDA", "JAX", "JIT", "DASK", "TORCH"]
     if args.m:
         label = label_param_list[args.m-1]
     else:
